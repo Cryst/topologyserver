@@ -11,7 +11,106 @@
 <body>
     <script src="js/scripts.js"></script>
 
-    Hello!
+	<div class="MenuContainer" style="height: 10%;">
+	<b>
+		<a href="#">Network A</a> > 
+		<a href="#">172.0.0.0/8</a> > 
+		<a href="#">R1</a>
+	</b>
+	</div>
+		
+	<div class="DiagramContainer" tabindex="0" style="touch-action: none; overflow: auto;" title="Tooltip">
+		<div class="DiagramBackground" style="position: absolute; overflow: hidden; left: 0px; top: 5%;  width: 100%; height: 95%; background-color: rgb(255, 255, 255); background-image: url(&quot;data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAwIDEwIEwgNDAgMTAgTSAxMCAwIEwgMTAgNDAgTSAwIDIwIEwgNDAgMjAgTSAyMCAwIEwgMjAgNDAgTSAwIDMwIEwgNDAgMzAgTSAzMCAwIEwgMzAgNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2QwZDBkMCIgb3BhY2l0eT0iMC4yIiBzdHJva2Utd2lkdGg9IjEiLz48cGF0aCBkPSJNIDQwIDAgTCAwIDAgMCA0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDBkMGQwIiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=&quot;); background-position: -1px -1px;"></div>
+		<svg style="left: 0px; top: 5%; width: 100%; height: 95%; display: block; min-width: 600px; min-height: 400px; position: absolute; background-image: none; cursor: default;">
+			<g>		
+			
+				<!-- linia -->
+				<g>
+					<path d="M 300 520 L 300 320" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path>
+				</g>
+	
+				<!-- switch -->
+				<g  style="visibility: visible; cursor: move; ">			
+					<rect x="300" y="520" width="120" height="80" transform="translate(-60,-40)" fill="#ffffff" stroke="#000000" pointer-events="all"></rect>
+					<text x="300" y="520" text-anchor="middle" dominant-baseline="middle" font-family="Courier New" font-size="35" fill="auto">
+					SW3
+					</text>
+				</g>
+										
+				<!-- linia -->
+				<g>
+					<path d="M 120 320 L 300 120" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path>
+				</g>
+	
+				<!-- switch -->
+				<g  style="visibility: visible; cursor: move; ">			
+					<rect x="120" y="320" width="120" height="80" transform="translate(-60,-40)" fill="#ffffff" stroke="#000000" pointer-events="all"></rect>
+					<text x="120" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Courier New" font-size="35" fill="auto">
+					SW1
+					</text>
+				</g>
+									
+									
+				<!-- linia -->
+				<g>
+					<path d="M 300 320 L 300 120" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path>
+				</g>
+	
+				<!-- switch -->
+				<g  style="visibility: visible; cursor: move; ">			
+					<rect x="300" y="320" width="120" height="80" transform="translate(-60,-40)" fill="#ffffff" stroke="#000000" pointer-events="all"></rect>
+					<text x="300" y="320" text-anchor="middle" dominant-baseline="middle" font-family="Courier New" font-size="35" fill="auto">
+					SW2
+					</text>
+				</g>
+									
+
+					
+				
+				<!-- router -->
+				<g transform="translate(0,0)" style="visibility: visible; cursor: move;">
+					<ellipse cx="300" cy="120" rx="40" ry="40" fill="#ffffff" stroke="#000000" pointer-events="all"></ellipse>
+					<path d="M 271.6 91.6 L 328.4 148.4" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path>
+					<path d="M 328.4 91.6 L 271.6 148.4" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="all"></path>
+					<text x="300" y="120" text-anchor="middle" dominant-baseline="middle" font-family="Courier New" font-size="35" fill="auto">
+					R1
+					</text>
+				</g>
+					
+					
+				<!-- TEST Tekstu
+				<g>
+					<foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%">
+					<div style="box-sizing: border-box; font-size: 0; text-align: center; ">
+						<div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
+							Text2
+						</div>
+					</div>
+					</foreignObject>
+				</g>
+				
+				<g>
+					<rect x="400" y="200" width="100" height="100" fill="red"></rect>
+					<text x="400" y="250" font-family="Verdana" font-size="35" fill="blue">Hello</text>
+					<a xlink:href="http://google.pl/">
+					  <text
+						transform="translate(450, 300) rotate(-65.000000) translate(0, 0)" 
+						font-family="Comic Sans" font-size="54"
+						font-weight="normal" fill="#008F68">
+						  <tspan x="0" y="0">
+							Link
+						  </tspan>
+					  </text>
+					</a>
+				</g>
+				-->
+			
+			</g>
+		</svg>
+	</div>
+	
+	
+
 
 </body>
 </html>
