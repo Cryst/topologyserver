@@ -1,0 +1,13 @@
+html, body {
+} 
+
+body {
+    background: white;
+    
+}
+
+canvas {
+    display: block;
+    background: green;
+    margin-left: 10px;
+}
