@@ -20,16 +20,20 @@ class Switch {
     show() {
         this.update();
         // draw uplink
-        ctx.beginPath();
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = 'blue';
-        ctx.setLineDash([]);
-        ctx.moveTo(this.uplinkX, this.uplinkY);
-        ctx.lineTo(this.downlinkX, this.downlinkY-this.heigh);
-        ctx.stroke();
+      //  ctx.beginPath();
+        //ctx.lineWidth = 2;
+        //ctx.strokeStyle = 'blue';
+        //ctx.setLineDash([]);
+        //ctx.moveTo(this.uplinkX, this.uplinkY);
+        //ctx.lineTo(this.downlinkX, this.downlinkY-this.heigh);
+        //ctx.stroke();
+        const g = svg.append("rect")
+        .attr("stroke", "white")
+        .attr("stroke-width", 1.5)
+        .attr("r", 114)
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-
-
+        /*
         // draw rect
         ctx.fillStyle = "yellow";
         rect(this.x, this.y, this.width, this.heigh);
@@ -38,6 +42,7 @@ class Switch {
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
         ctx.fillText(this.constructor.name + " " + this.ip, this.x + this.width / 2, this.y + this.heigh/2);
+        */
     }
 }
 
@@ -52,6 +57,7 @@ class Router {
         //this.uplinkY = _uplink[0].downlinkY;
 
         this.update();
+        this.show();
     }
 
     update() {
@@ -61,14 +67,19 @@ class Router {
 
     show() {
         
-        ctx.fillStyle = "yellow";
-        //rect(this.x, this.y, this.width, this.heigh);
-        circle(this.x + this.r , this.y + this.r , this.r );
+      //  ctx.fillStyle = "yellow";
+      //  //rect(this.x, this.y, this.width, this.heigh);
+      //  circle(this.x + this.r , this.y + this.r , this.r );
  
 
 
-        ctx.fillStyle = "black";
-        ctx.textAlign = "center";
-        ctx.fillText(this.constructor.name + " " + this.ip, this.x + this.width / 2, this.y + this.heigh/2);
+      //  ctx.fillStyle = "black";
+      //  ctx.textAlign = "center";
+      //  ctx.fillText(this.constructor.name + " " + this.ip, this.x + this.width / 2, this.y + this.heigh/2);
+     this.g = svg.append("circle")
+    .attr("stroke", "white")
+    .attr("stroke-width", 1.5)
+    .attr("r", 114)
+    .attr("transform", `translate(${this.x + this.r},${this.y + this.r})`);
     }
 }

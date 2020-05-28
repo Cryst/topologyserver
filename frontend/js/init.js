@@ -11,11 +11,9 @@ const svg = d3
     .attr("height", height + margin.top + margin.bottom);
 
 // Group used to enforce margin
-const g = svg.append("circle")
-    .attr("stroke", "white")
-    .attr("stroke-width", 1.5)
-    .attr("r", 114)
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+const g = svg.append("circle");
+let router1 = new Router(50, 50, "192.168.15.1");
+let router2 = new Router(200, 200, "192.168.15.1");
 
 /* 
 add canvas dom to end of html
@@ -38,7 +36,7 @@ function resizeCanvas() {
 
 
 
-
+/*
 
 function init() {
     let router1 = new Router(255, 5, "192.168.15.1");
@@ -67,12 +65,12 @@ function init() {
         switch1.show();
     }
 
-
+    */
 
     //_drawtest();
     //_test();
     
-}
+
 
 
 
