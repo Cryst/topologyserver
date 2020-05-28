@@ -1,4 +1,24 @@
-// add canvas dom to end of html
+const margin = { top: 140, bottom: 10, left: 120, right: 20 };
+const width = 800 - margin.left - margin.right;
+const height = 600 - margin.top - margin.bottom;
+
+
+// Creates sources <svg> element
+const svg = d3
+    .select("body")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
+
+// Group used to enforce margin
+const g = svg.append("circle")
+    .attr("stroke", "white")
+    .attr("stroke-width", 1.5)
+    .attr("r", 114)
+    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+/* 
+add canvas dom to end of html
 document.body.insertAdjacentHTML('beforeend', '<canvas id="canvas"></canvas>');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -14,7 +34,7 @@ function resizeCanvas() {
     init();
 }
 
-
+*/
 
 
 
