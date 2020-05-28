@@ -8,6 +8,8 @@
 #include <stdexcept>
 #include <cstring>
 //#include <string> //replaced by cstring
+//test
+//zmiana
 #include <array>
 
 
