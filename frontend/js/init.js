@@ -1,75 +1,96 @@
 const margin = { top: 140, bottom: 10, left: 120, right: 20 };
-const width = 800 - margin.left - margin.right;
-const height = 600 - margin.top - margin.bottom;
+//const canvaswidth = 800 - margin.left - margin.right;
+//const canvasheight = 600 - margin.top - margin.bottom;
 
 
-// Creates sources <svg> element
-const svg = d3
-    .select("body")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
-
-// Group used to enforce margin
-const g = svg.append("circle");
-let router1 = new Router(50, 50, "192.168.15.1");
-let router2 = new Router(200, 200, "192.168.15.1");
-
-/* 
-add canvas dom to end of html
-document.body.insertAdjacentHTML('beforeend', '<canvas id="canvas"></canvas>');
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-
-
-// resize the canvas to fill browser window dynamically
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas, false);
-function resizeCanvas() {
-    canvas.width = window.innerWidth/2;
-    canvas.height = window.innerHeight / 2;
-    // resize will clear canvas content
-    init();
-}
-
-*/
+document.body.insertAdjacentHTML('beforeend', '<canvas id="network" width="500" height="500"></canvas>');
 
 
 
-/*
+var canvas = d3.select("#network"),
+    width = canvas.attr("width"),
+    height = canvas.attr("height"),
+    ctx = canvas.node().getContext("2d"),
+    r = 3,
+    color = d3.scaleOrdinal(d3.schemeCategory20),
+    simulation = d3.forceSimulation()
+        .force("x", d3.forceX(width / 2))
+        .force("y", d3.forceY(height / 2))
+        .force("collide", d3.forceCollide(r + 1))
+        .force("charge", d3.forceManyBody()
+            .strength(-20))
+        .force("link", d3.forceLink()
+            .id(function (d) { return d.name; }));
 
-function init() {
-    let router1 = new Router(255, 5, "192.168.15.1");
-    router1.show();
 
-    var switch1 = new Switch(50, 70, "192.168.15.2", router1 );
-    var switch2 = new Switch(220, 140, "192.168.15.3", router1 );
-    var switch3 = new Switch(60, 200, "192.168.15.2", router1 );
-    switch1.show();
-    switch2.show();
-    switch3.show();
+d3.json("VotacionesSenado2017.json", function (err, graph) {
+    if (err) throw err;
+
+    simulation.nodes(graph.nodes);
+    simulation.force("link")
+        .links(graph.links);
+    simulation.on("tick", update);
+
+    canvas
+        .call(d3.drag()
+            .container(canvas.node())
+            .subject(dragsubject)
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+
+    function update() {
+        ctx.clearRect(0, 0, width, height);
+
+        ctx.beginPath();
+        ctx.globalAlpha = 0.1;
+        ctx.strokeStyle = "#aaa";
+        graph.links.forEach(drawLink);
+        ctx.stroke();
 
 
- 
-
-    var cx, cy;
-    // detect mouse clicks
-    canvas.addEventListener('mousedown', onDown, false);
-    function onDown() {
-        cx = event.pageX - canvas.getBoundingClientRect().left;
-        cy = event.pageY - canvas.getBoundingClientRect().top;
-
-        console.log(`X,Y=${cx},${cy}`);
-        switch1.x = cx;
-        switch1.y = cy;
-        switch1.show();
+        ctx.globalAlpha = 1.0;
+        graph.nodes.forEach(drawNode);
     }
 
-    */
+    function dragsubject() {
+        return simulation.find(d3.event.x, d3.event.y);
+    }
 
-    //_drawtest();
-    //_test();
-    
+});
+
+function dragstarted() {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d3.event.subject.fx = d3.event.subject.x;
+    d3.event.subject.fy = d3.event.subject.y;
+    console.log(d3.event.subject);
+}
+
+function dragged() {
+    d3.event.subject.fx = d3.event.x;
+    d3.event.subject.fy = d3.event.y;
+}
+
+function dragended() {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d3.event.subject.fx = null;
+    d3.event.subject.fy = null;
+}
+
+
+
+function drawNode(d) {
+    ctx.beginPath();
+    ctx.fillStyle = color(d.party);
+    ctx.moveTo(d.x, d.y);
+    ctx.arc(d.x, d.y, r, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function drawLink(l) {
+    ctx.moveTo(l.source.x, l.source.y);
+    ctx.lineTo(l.target.x, l.target.y);
+}
 
 
 
