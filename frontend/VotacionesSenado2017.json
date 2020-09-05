@@ -28,8 +28,8 @@
 	"links": [
 		{
 			"source": "Router",
-			"target": "Switch 1"
-			
+			"target": "Switch 1",
+			"count": 206
 		},
 		{
 			"source": "Router",
