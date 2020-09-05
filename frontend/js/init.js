@@ -3,24 +3,22 @@ const margin = { top: 140, bottom: 10, left: 120, right: 20 };
 //const canvasheight = 600 - margin.top - margin.bottom;
 
 
-document.body.insertAdjacentHTML('beforeend', '<canvas id="network" width="5000" height="5000"></canvas>');
-
+document.body.insertAdjacentHTML('beforeend', '<canvas id="network" width="1000" height="1000"></canvas>');
 
 
 var canvas = d3.select("#network"),
     width = canvas.attr("width"),
     height = canvas.attr("height"),
-    
     ctx = canvas.node().getContext("2d"),
     r = 50,
     color = d3.scaleOrdinal(d3.schemeCategory20),
     simulation = d3.forceSimulation()
         .force("x", d3.forceX(width / 2))
-       .force("y", d3.forceY(height / 2))
+        .force("y", d3.forceY(height / 2))
         .force("collide", d3.forceCollide(r + 100))
         .force("charge", d3.forceManyBody()
-           .strength(-20))
-       .force("link", d3.forceLink()
+            .strength(-20))
+        .force("link", d3.forceLink()
             .id(function (d) { return d.name; }));
 
 
@@ -44,7 +42,7 @@ d3.json("VotacionesSenado2017.json", function (err, graph) {
         ctx.clearRect(0, 0, width, height);
 
         ctx.beginPath();
-        ctx.globalAlpha = 1.0;
+     //   ctx.globalAlpha = 0.5;
         ctx.strokeStyle = "#aaa";
         graph.links.forEach(drawLink);
         ctx.stroke();
@@ -100,8 +98,6 @@ function drawLink(l) {
     ctx.stroke();
     ctx.moveTo(l.source.x, l.source.y);
     ctx.lineTo(l.target.x, l.target.y);
-    
-    
 }
 
 
