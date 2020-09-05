@@ -27,7 +27,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         else:
             #serve files, and directory listings by following self.path from
             #current working directory
-            http.server.SimpleHTTPRequestHandler.do_GET()
+            http.server.SimpleHTTPRequestHandler.do_GET(self)
 
 httpd = socketserver.ThreadingTCPServer(('', PORT),CustomHandler)
 
