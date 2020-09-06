@@ -19,7 +19,7 @@ fetch('/frontend/api/isalive/' + ip )
     .then(response => response.text())
     .then(data => console.log(data));
 
-fetch( '/frontend/api/ping/'+ ip )
+fetch( '/frontend/api/ping/'+ d.ipv4 )
     .then(response => response.text())
     .then(data => console.log(data));
 */
@@ -47,7 +47,7 @@ var canvas = d3.select("#network"),
             .id(function (d) { return d.name; }));
 
 
-d3.json("data.json", function (err, graph) {
+d3.json("data_tmp.json", function (err, graph) {
     if (err) throw err;
 
     simulation.nodes(graph.nodes);
