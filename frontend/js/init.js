@@ -53,6 +53,9 @@ d3.json("data_tmp.json", function (err, graph) {
     simulation.nodes(graph.nodes);
     simulation.force("link")
         .links(graph.links);
+
+    graph.nodes.forEach(refreshNode);
+
     simulation.on("tick", update);
 
     canvas
@@ -63,15 +66,19 @@ d3.json("data_tmp.json", function (err, graph) {
             .on("drag", dragged)
             .on("end", dragended));
 
+
+    
+
     function update() {
         ctx.clearRect(0, 0, width, height);
 
-        ctx.beginPath();
+         ctx.beginPath();
      //   ctx.globalAlpha = 0.5;
         ctx.strokeStyle = "#aaa";
         graph.links.forEach(drawLink);
         ctx.stroke();
 
+        
 
         ctx.globalAlpha = 1.0;
         graph.nodes.forEach(drawNode);
@@ -105,7 +112,15 @@ function dragended() {
 
 function drawNode(d) {
     ctx.beginPath();
-    ctx.fillStyle = "#66ff66";
+
+    if (d.isalive == "True") {
+        ctx.fillStyle = "#00ff00";
+    } else if (d.isalive == "False") {
+        ctx.fillStyle = "#ff0000";
+    } else {
+        ctx.fillStyle = "#404040";
+    }
+    
     ctx.moveTo(d.x, d.y);
     ctx.rect(d.x, d.y, 120, 70);
     ctx.fill();
@@ -113,7 +128,11 @@ function drawNode(d) {
     ctx.fillStyle = "#000000";
     ctx.font = "14px Comic Sans MS";
     ctx.textAlign = "center";
-    ctx.fillText(d.name, d.x+60, d.y+42);
+    ctx.fillText(d.name + "\n"+d.isalive, d.x+60, d.y+42);
+}
+
+function refreshNode(d) {
+    fetch('/api/isalive/' + d.ipv4).then(response => response.text()).then(data => d.isalive = data );   
 }
 
 
