@@ -5,12 +5,12 @@ import string
 import socket
 from napalm import get_network_driver # pip install napalm==2.3.2
 from napalm.base.exceptions import ConnectionException
+import os 
 
 PORT = 9090
 deviceslist = 'devices.txt'
 
-namejson = list();
-lldpjson = list();
+
 
 def connect(ipaddres, login, password):
     driver = get_network_driver('ios')
@@ -28,12 +28,15 @@ def connect(ipaddres, login, password):
     #print("\"lldp\": "+json.dumps(d_lldp, indent=4)+"}")
     
 
-
+#data collector
+namejson = list();
+lldpjson = list();
 with open(deviceslist,'r') as switch_db:
     for switch in switch_db:
     #set up to connect to a switch from switch_db
         try:
             connect(switch, 'artur', 'cisco')
+            print(f'Data collected from {switch}') 
         except ConnectionException:
             print(f'Could not connect to {switch}') 
             #resolve ipaddresses
@@ -43,7 +46,7 @@ with open(deviceslist,'r') as switch_db:
             print(f'Login error {switch}')
 
 
-
+#save collected data
 lldpjson.append(dict(source="S2.example.com", target="S5.example.com", count=710 ))
 datajson = dict(nodes=namejson, links=lldpjson)
 with open('frontend/data_tmp.json', 'w') as f:
@@ -51,7 +54,8 @@ with open('frontend/data_tmp.json', 'w') as f:
 print(json.dumps(datajson, indent=4))
 
 
-
+#change working directory and run HTTP server
+os.chdir("frontend")
 httpd = socketserver.ThreadingTCPServer(('', PORT),CustomHandler)
 while True:
     try:

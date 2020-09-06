@@ -4,9 +4,6 @@ import re
 from icmplib import ping, multiping, traceroute, Host, Hop
 
 
-
-
-
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if None != re.search('/api/ping/*', self.path):
