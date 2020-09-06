@@ -1,52 +1,61 @@
-import http.server
 import socketserver
-import re
-from icmplib import ping, multiping, traceroute, Host, Hop
+from classes import CustomHandler
+import json
+import string
+import socket
+from napalm import get_network_driver # pip install napalm==2.3.2
+from napalm.base.exceptions import ConnectionException
 
 PORT = 9090
+deviceslist = 'devices.txt'
+
+namejson = list();
+lldpjson = list();
+
+def connect(ipaddres, login, password):
+    driver = get_network_driver('ios')
+    ssh = driver(ipaddres, login, password)
+    ssh.open()
+    d_facts = ssh.get_facts()
+    d_output = ssh.get_mac_address_table()
+    d_ip = ssh.get_interfaces_ip()
+    d_lldp = ssh.get_lldp_neighbors()
+    ssh.close()
+    namejson.append(dict(name=d_facts["fqdn"], ipv4=ipaddres.rstrip() ))
+    #print("{ \"facts\": "+json.dumps(d_facts["fqdn"], indent=4)+",")
+    #print("\"mac_address_table\": "+json.dumps(d_output, indent=4)+",")
+    #print("\"ios_ip\": "+json.dumps(d_ip, indent=4)+",")
+    #print("\"lldp\": "+json.dumps(d_lldp, indent=4)+"}")
+    
 
 
-class CustomHandler(http.server.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if None != re.search('/api/ping/*', self.path):
-            ipaddr = ""+self.path.split('/')[-1]
-            print(self.path.split('/'))
-            #This URL will trigger our sample function and send what it returns back to the browser
-            self.send_response(200)
-            self.send_header('Content-type','text/html')
-            self.end_headers()
-            self.wfile.write( str(ping(ipaddr, count=3, interval=0.2, timeout=1).avg_rtt).encode() ) #call sample function here
-            return 
-        if None != re.search('/api/isalive/*', self.path):
-            ipaddr = ""+self.path.split('/')[-1]
-            print(self.path.split('/'))
-            #This URL will trigger our sample function and send what it returns back to the browser
-            self.send_response(200)
-            self.send_header('Content-type','text/html')
-            self.end_headers()
-            self.wfile.write( str(ping(ipaddr, count=3, interval=0.2, timeout=1).is_alive).encode() ) #call sample function here
-            return
-        if None != re.search('/api/mult/*', self.path):
-            num1 = float(self.path.split('/')[-1])
-            num2 = float(self.path.split('/')[-2])
-            #This URL will trigger our sample function and send what it returns back to the browser
-            self.send_response(200)
-            self.send_header('Content-type','text/html')
-            self.end_headers()
-            self.wfile.write(str(num1*num2).encode()) #call sample function here
-            return
-        else:
-            #serve files, and directory listings by following self.path from
-            #current working directory
-            http.server.SimpleHTTPRequestHandler.do_GET(self)
+with open(deviceslist,'r') as switch_db:
+    for switch in switch_db:
+    #set up to connect to a switch from switch_db
+        try:
+            connect(switch, 'artur', 'cisco')
+        except ConnectionException:
+            print(f'Could not connect to {switch}') 
+            #resolve ipaddresses
+            fqdn = socket.getfqdn(switch.rstrip())
+            namejson.append(dict(name=fqdn, ipv4=switch.rstrip() ))
+        except:
+            print(f'Login error {switch}')
+
+
+
+lldpjson.append(dict(source="S2.example.com", target="S5.example.com", count=710 ))
+datajson = dict(nodes=namejson, links=lldpjson)
+with open('frontend/data_tmp.json', 'w') as f:
+    json.dump(datajson, f)
+print(json.dumps(datajson, indent=4))
+
+
 
 httpd = socketserver.ThreadingTCPServer(('', PORT),CustomHandler)
-
-print("serving at port 9090")
-
-
 while True:
     try:
+        print("HTTP server started")
         httpd.serve_forever()
     except Exception:
         pass 

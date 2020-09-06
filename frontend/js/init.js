@@ -2,8 +2,33 @@ const margin = { top: 140, bottom: 10, left: 120, right: 20 };
 //const canvaswidth = 800 - margin.left - margin.right;
 //const canvasheight = 600 - margin.top - margin.bottom;
 
+function httpGetAsync(theUrl, callback) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+
+/*
+var ip = "8.8.8.8";
+
+fetch('/frontend/api/isalive/' + ip )
+    .then(response => response.text())
+    .then(data => console.log(data));
+
+fetch( '/frontend/api/ping/'+ ip )
+    .then(response => response.text())
+    .then(data => console.log(data));
+*/
+
 
 document.body.insertAdjacentHTML('beforeend', '<canvas id="network" width="1000" height="1000"></canvas>');
+
+
+
 
 
 var canvas = d3.select("#network"),
@@ -22,7 +47,7 @@ var canvas = d3.select("#network"),
             .id(function (d) { return d.name; }));
 
 
-d3.json("VotacionesSenado2017.json", function (err, graph) {
+d3.json("data.json", function (err, graph) {
     if (err) throw err;
 
     simulation.nodes(graph.nodes);

@@ -2,27 +2,31 @@
 	"nodes": [
 		{
 			"name": "Router",
-			"party": "Centro Democrático"
+			"ipv4": "127.0.0.1"
 		},
 		{
 			"name": "Switch 1",
-			"party": "Cambio Radical"
+			"ipv4": "192.168.122.82"
 		},
 		{
 			"name": "Switch 2",
-			"party": "Centro Democrático"
+			"ipv4": "192.168.122.83"
 		},
 		{
 			"name": "Switch 3",
-			"party": "Conservador Colombiano"
+			"ipv4": "192.168.122.84"
 		},
 		{
 			"name": "Switch 4",
-			"party": "Coalición"
+			"ipv4": "192.168.122.85"
 		},
 		{
 			"name": "Switch 5",
-			"party": "Equipo Colombia"
+			"ipv4": "192.168.122.87"
+		},
+		{
+			"name": "Google",
+			"ipv4": "8.8.8.8"
 		}
 	],
 	"links": [
