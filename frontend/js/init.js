@@ -105,24 +105,25 @@ function dragended() {
 
 function drawNode(d) {
     ctx.beginPath();
-    ctx.fillStyle = "#0000FF";
+    ctx.fillStyle = "#66ff66";
     ctx.moveTo(d.x, d.y);
-    ctx.rect(d.x, d.y, 100, 100);
+    ctx.rect(d.x, d.y, 120, 70);
     ctx.fill();
 
-    ctx.fillStyle = "#FF0000";
-    ctx.font = "50px Comic Sans MS";
-    ctx.fillText(d.name, d.x, d.y);
+    ctx.fillStyle = "#000000";
+    ctx.font = "14px Comic Sans MS";
+    ctx.textAlign = "center";
+    ctx.fillText(d.name, d.x+60, d.y+42);
 }
 
 
 function drawLink(l) {
-    ctx.lineWidth = 30;
+    ctx.lineWidth = 1;
     ctx.lineCap = "square";
     ctx.strokeStyle = "#FF0000";
     ctx.stroke();
-    ctx.moveTo(l.source.x, l.source.y);
-    ctx.lineTo(l.target.x, l.target.y);
+    ctx.moveTo(l.source.x+60, l.source.y+35);
+    ctx.lineTo(l.target.x+60, l.target.y+35);
 }
 
 
