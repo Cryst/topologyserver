@@ -9,7 +9,7 @@ import os
 
 PORT = 9090
 deviceslist = 'devices.txt'
-
+collector = 0
 
 
 def connect(ipaddres, login, password):
@@ -36,27 +36,29 @@ def connect(ipaddres, login, password):
 #data collector
 namejson = list();
 lldpjson = list();
-#with open(deviceslist,'r') as switch_db:
-#    for switch in switch_db:
-#    #set up to connect to a switch from switch_db
-#        try:
-#            connect(switch, 'artur', 'cisco')
-#            print(f'Data collected from {switch}') 
-#        except ConnectionException:
-#            print(f'Could not connect to {switch}') 
-#            #resolve ipaddresses
-#            fqdn = socket.getfqdn(switch.rstrip())
-#            namejson.append(dict(name=fqdn, ipv4=switch.rstrip() ))
-#        except:
-#            print(f'Login error {switch}')
-#
-#
-##save collected data
-#lldpjson.append(dict(source="S2.example.com", target="S5.example.com", count=710 ))
-#datajson = dict(nodes=namejson, links=lldpjson)
-#with open('frontend/data_tmp.json', 'w') as f:
-#    json.dump(datajson, f)
-##print(json.dumps(datajson, indent=4))
+
+if collector == 1:
+    with open(deviceslist,'r') as switch_db:
+        for switch in switch_db:
+        #set up to connect to a switch from switch_db
+            try:
+                connect(switch, 'artur', 'cisco')
+                print(f'Data collected from {switch}') 
+            except ConnectionException:
+                print(f'Could not connect to {switch}') 
+                #resolve ipaddresses
+                fqdn = socket.getfqdn(switch.rstrip())
+                namejson.append(dict(name=fqdn, ipv4=switch.rstrip() ))
+            except:
+                print(f'Login error {switch}')
+    
+    
+    #save collected data
+    lldpjson.append(dict(source="S2.example.com", target="S5.example.com", count=710 ))
+    datajson = dict(nodes=namejson, links=lldpjson)
+    with open('frontend/data_tmp.json', 'w') as f:
+        json.dump(datajson, f)
+    #print(json.dumps(datajson, indent=4))
 
 
 
