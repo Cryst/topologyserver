@@ -1,6 +1,13 @@
 const margin = { top: 140, bottom: 10, left: 120, right: 20 };
-//const canvaswidth = 800 - margin.left - margin.right;
-//const canvasheight = 600 - margin.top - margin.bottom;
+
+function updateList(name) {
+    var node = document.createElement("LI");                        // Create a <li> node
+    var textnode = document.createTextNode(name);                   // Create a text node
+    node.appendChild(textnode);                                     // Append the text to <li>
+    document.getElementById("deviceList").appendChild(node);        // Append <li> to <ul> with id="myList"
+}
+
+
 
 function httpGetAsync(theUrl, callback) {
     var xmlHttp = new XMLHttpRequest();
@@ -12,22 +19,9 @@ function httpGetAsync(theUrl, callback) {
     xmlHttp.send(null);
 }
 
-/*
-var ip = "8.8.8.8";
-
-fetch('/frontend/api/isalive/' + ip )
-    .then(response => response.text())
-    .then(data => console.log(data));
-
-fetch( '/frontend/api/ping/'+ d.ipv4 )
-    .then(response => response.text())
-    .then(data => console.log(data));
-*/
-
-
-document.body.insertAdjacentHTML('beforeend', '<canvas id="network" width="1000" height="1000"></canvas>');
-
-
+document.body.insertAdjacentHTML('beforeend', '<div class="DrawingContainer" ><canvas id="network"></canvas></div>');
+document.querySelector('#network').setAttribute('height', window.innerHeight-20 );
+document.querySelector('#network').setAttribute('width', window.innerWidth*0.8-20  );
 
 
 
@@ -35,7 +29,7 @@ var canvas = d3.select("#network"),
     width = canvas.attr("width"),
     height = canvas.attr("height"),
     ctx = canvas.node().getContext("2d"),
-    r = 50,
+    r = 30,
     color = d3.scaleOrdinal(d3.schemeCategory20),
     simulation = d3.forceSimulation()
         .force("x", d3.forceX(width / 2))
@@ -55,6 +49,7 @@ d3.json("data_tmp.json", function (err, graph) {
         .links(graph.links);
 
     graph.nodes.forEach(refreshNode);
+    graph.nodes.forEach(refreshList);
 
     simulation.on("tick", update);
 
@@ -111,6 +106,9 @@ function dragended() {
 
 
 function drawNode(d) {
+
+
+
     ctx.beginPath();
 
     if (d.isalive == "True") {
@@ -128,18 +126,23 @@ function drawNode(d) {
     ctx.fillStyle = "#000000";
     ctx.font = "14px Comic Sans MS";
     ctx.textAlign = "center";
-    ctx.fillText(d.name + "\n"+d.isalive, d.x+60, d.y+42);
+    ctx.fillText(d.name + "\n", d.x+60, d.y+42);
 }
 
 function refreshNode(d) {
-    fetch('/api/isalive/' + d.ipv4).then(response => response.text()).then(data => d.isalive = data );   
+    fetch('/api/isalive/' + d.ipv4).then(response => response.text()).then(data => d.isalive = data);   
+}
+
+function refreshList(d) {
+    updateList(d.name); 
+    //updateList(d.name + " " + d.isalive); 
 }
 
 
 function drawLink(l) {
     ctx.lineWidth = 1;
     ctx.lineCap = "square";
-    ctx.strokeStyle = "#FF0000";
+    ctx.strokeStyle = "#000000";
     ctx.stroke();
     ctx.moveTo(l.source.x+60, l.source.y+35);
     ctx.lineTo(l.target.x+60, l.target.y+35);

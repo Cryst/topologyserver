@@ -1,13 +1,32 @@
 html, body {
-} 
+}
 
 body {
     background: white;
-    
+    heigh: 80%;
+    width: 80%;
+    padding: 0%;
+    marign: 0%;
 }
 
 canvas {
     display: block;
+
     background: #b7b1b1;
-    margin-left: 10px;
+
+}
+
+div.MenuContainer {
+    display: block;
+    width: 24%;
+    height: 100%;
+    float: left;
+    font-size: 20px;
+}
+
+div.DrawingContainer {
+    display: block;
+    width: 75%;
+    float: right;
+    background: #b7b1b1;
 }
